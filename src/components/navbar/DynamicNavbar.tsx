@@ -1,14 +1,5 @@
 import styles from "./dynamicNavbar.module.css";
-import { useState, useEffect, useMemo } from "react";
-import {
-  Box,
-  Button,
-  HStack,
-  Stack,
-  Text,
-  useMediaQuery,
-  VStack,
-} from "@chakra-ui/react";
+import { useState, useEffect } from "react";
 import { AnimatePresence } from "framer-motion";
 import SlideIn from "@/components/animations/SlideIn";
 import Link from "next/link";
@@ -24,7 +15,14 @@ const DynamicNavbar = ({
   const [visible, setVisible] = useState(false);
   const [hover, setHover] = useState<number>();
   const [homeNavbarHeight, setHomeNavbarHeight] = useState<number>();
-  const [isXl] = useMediaQuery("(min-width: 48em)");
+  const [isXl, setIsXl] = useState(false);
+
+  useEffect(() => {
+    const checkWidth = () => setIsXl(window.innerWidth >= 768);
+    checkWidth();
+    window.addEventListener("resize", checkWidth);
+    return () => window.removeEventListener("resize", checkWidth);
+  }, []);
 
   useEffect(() => {
     setHomeNavbarHeight(document?.getElementById("homeNavbar")?.offsetHeight);
@@ -54,68 +52,54 @@ const DynamicNavbar = ({
           duration={0.75}
           className={styles.navbarContainer}
         >
-          <Stack
+          <div
             id="dynamicHomeNavbar"
-            py={2}
-            px={{ base: 6, md: 8, xl: 32 }}
-            spacing={6}
-            alignItems="center"
-            w="100%"
-            direction="row"
-            justifyContent="space-between"
-            bg="#FFFFFF99"
+            className="flex flex-row py-2 px-6 md:px-8 xl:px-32 gap-6 items-center w-full justify-between bg-white/60"
           >
             <Link href="/">
               <HorizontalLogo width={100} siimColor="black" />
             </Link>
 
-            <Button
-              variant="menu"
-              display={{ base: "flex", md: "none" }}
+            <button
+              className="btn-menu flex md:hidden p-2"
               onClick={toggleMenuMobile}
             >
               <MenuIcon />
-            </Button>
+            </button>
 
-            <HStack
-              spacing={{ md: 4, xl: 6 }}
-              display={{ base: "none", md: "flex" }}
-            >
+            <div className="hidden md:flex flex-row gap-4 xl:gap-6">
               {menuArray.slice(0, 5).map((item, i) => (
-                <VStack key={i} spacing={0}>
+                <div key={i} className="flex flex-col items-center gap-0">
                   <Link href={item.url} scroll={false} replace>
-                    <Text
-                      variant="navBarLink"
-                      fontSize={{ md: "sm", xl: "inherit" }}
+                    <span
+                      className={`nav-link text-sm xl:text-base transition-transform duration-500 ${
+                        hover === i ? "-translate-y-1" : ""
+                      }`}
                       onMouseEnter={() => setHover(i)}
                       onMouseLeave={() => setHover(undefined)}
-                      transform={hover === i ? "translate(0px,-5px)" : ""}
                     >
                       {item.label}
-                    </Text>
+                    </span>
                   </Link>
-                  <Box
-                    height="1px"
-                    bg="gray.500"
-                    transition="0.5s"
-                    w="110%"
-                    maxW={hover === i ? 1000 : 0}
+                  <div
+                    className="h-px bg-gray-500 transition-all duration-500"
+                    style={{
+                      width: "110%",
+                      maxWidth: hover === i ? "1000px" : "0px",
+                    }}
                   />
-                </VStack>
+                </div>
               ))}
 
               {isXl && (
                 <Link href="https://distribuidora.siim.cl/">
-                  <Button
-                    variant="primary"
-                    fontSize={{ md: "sm", xl: "inherit" }}
-                  >
+                  <button className="btn-primary btn-sm text-sm xl:text-base">
                     Distribuidora
-                  </Button>
+                  </button>
                 </Link>
               )}
-            </HStack>
-          </Stack>
+            </div>
+          </div>
         </SlideIn>
       )}
     </AnimatePresence>

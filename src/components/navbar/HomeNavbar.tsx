@@ -1,48 +1,40 @@
 import SlideIn from "@/components/animations/SlideIn";
-import {
-  Box,
-  Button,
-  HStack,
-  Stack,
-  Text,
-  useMediaQuery,
-  VStack,
-} from "@chakra-ui/react";
 import Link from "next/link";
 import MenuIcon from "public/icons/MenuIcon";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { menuArray } from "./menuArray";
 import HorizontalLogo from "../ui/logos/HorizontalLogo";
 
 const HomeNavbar = ({ toggleMenuMobile }: { toggleMenuMobile: () => void }) => {
   const [hover, setHover] = useState<number>();
-  const [isXl] = useMediaQuery("(min-width: 48em)");
+  const [isXl, setIsXl] = useState(false);
+
+  useEffect(() => {
+    const checkWidth = () => setIsXl(window.innerWidth >= 768);
+    checkWidth();
+    window.addEventListener("resize", checkWidth);
+    return () => window.removeEventListener("resize", checkWidth);
+  }, []);
 
   return (
-    <Stack
+    <div
       id="homeNavbar"
-      p={8}
-      spacing={6}
-      alignItems="center"
-      w="100%"
-      direction={{ base: "row", xl: "column" }}
-      justifyContent="space-between"
+      className="flex flex-row xl:flex-col p-8 gap-6 items-center w-full justify-between"
     >
       <SlideIn direction="toDown" style={{ width: "auto" }}>
         <HorizontalLogo width={160} />
       </SlideIn>
 
       <SlideIn direction="toDown" style={{ width: "auto" }}>
-        <Button
-          variant="menu"
-          display={{ base: "flex", md: "none" }}
+        <button
+          className="btn-menu flex md:hidden p-2"
           onClick={toggleMenuMobile}
         >
           <MenuIcon />
-        </Button>
+        </button>
       </SlideIn>
 
-      <HStack spacing={{ md: 4, xl: 6 }} display={{ base: "none", md: "flex" }}>
+      <div className="hidden md:flex flex-row gap-4 xl:gap-6">
         {menuArray.slice(0, 5).map((item, i) => (
           <SlideIn
             key={i}
@@ -51,26 +43,26 @@ const HomeNavbar = ({ toggleMenuMobile }: { toggleMenuMobile: () => void }) => {
             duration={0.5}
             style={{ width: "auto" }}
           >
-            <VStack spacing={0}>
+            <div className="flex flex-col items-center gap-0">
               <Link href={item.url} scroll={false} replace>
-                <Text
-                  variant="navBarLink"
-                  fontSize={{ md: "sm", xl: "inherit" }}
+                <span
+                  className={`nav-link text-sm xl:text-base transition-transform duration-500 ${
+                    hover === i ? "-translate-y-1" : ""
+                  }`}
                   onMouseEnter={() => setHover(i)}
                   onMouseLeave={() => setHover(undefined)}
-                  transform={hover === i ? "translate(0px,-5px)" : ""}
                 >
                   {item.label}
-                </Text>
+                </span>
               </Link>
-              <Box
-                height="1px"
-                bg="gray.500"
-                transition="0.5s"
-                w="110%"
-                maxW={hover === i ? 1000 : 0}
+              <div
+                className="h-px bg-gray-500 transition-all duration-500"
+                style={{
+                  width: "110%",
+                  maxWidth: hover === i ? "1000px" : "0px",
+                }}
               />
-            </VStack>
+            </div>
           </SlideIn>
         ))}
 
@@ -82,14 +74,14 @@ const HomeNavbar = ({ toggleMenuMobile }: { toggleMenuMobile: () => void }) => {
             style={{ width: "auto" }}
           >
             <Link href="https://distribuidora.siim.cl/" target="_blank">
-              <Button variant="primary" fontSize={{ md: "sm", xl: "inherit" }}>
+              <button className="btn-primary btn-sm text-sm xl:text-base">
                 Distribuidora
-              </Button>
+              </button>
             </Link>
           </SlideIn>
         )}
-      </HStack>
-    </Stack>
+      </div>
+    </div>
   );
 };
 

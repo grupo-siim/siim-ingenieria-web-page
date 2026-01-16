@@ -1,37 +1,30 @@
 import SlideIn from "@/components/animations/SlideIn";
-import { Flex, Heading, HStack, Square, Text, VStack } from "@chakra-ui/react";
 import ServicesList from "./ServicesList";
-import ServicesListDos from "./ServicesList";
 
 const Servicios = () => {
   return (
-    <VStack py={32} justifyContent="space-between" id="servicios">
-      <VStack px={{ base: 8, md: 16, xl: 32 }} pb={16}>
+    <div className="flex flex-col py-32 justify-between" id="servicios">
+      <div className="flex flex-col px-8 md:px-16 xl:px-32 pb-16 gap-4">
         <SlideIn>
-          <Heading
-            fontSize={{ base: "4xl", xl: "6xl" }}
-            fontWeight="bold"
-            lineHeight="none"
-            alignSelf="flex-start"
-          >
+          <h1 className="text-4xl xl:text-6xl font-bold leading-none self-start">
             NUESTROS <br /> SERVICIOS.
-          </Heading>
+          </h1>
         </SlideIn>
 
         <SlideIn delay={0.5}>
-          <Text fontSize="md" lineHeight={6}>
+          <p className="text-base leading-6">
             Nos enfocamos en satisfacer las necesidades en las áreas de
             seguridad electrónica, sistema de protección contra incendios y
             electricidad para el sector industrial, retail, edificios
             comerciales y habitacionales.
-          </Text>
+          </p>
         </SlideIn>
-      </VStack>
+      </div>
 
       <SlideIn direction="toLeft" delay={0.75}>
         <ServicesList />
       </SlideIn>
-    </VStack>
+    </div>
   );
 };
 

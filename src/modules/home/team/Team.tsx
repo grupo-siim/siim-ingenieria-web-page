@@ -1,20 +1,9 @@
-import { Button, Flex, Text, VStack } from "@chakra-ui/react";
-import { AnimatePresence, isValidMotionProp, motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
-import { LegacyRef, useState } from "react";
+import { LegacyRef, useState, useEffect } from "react";
 import styles from "./team.module.css";
-import { chakra, shouldForwardProp } from "@chakra-ui/react";
 import ChevronRight from "public/icons/ChevronRight";
 import { useFocus } from "@/hooks/useFocus";
-import { ArrowFunction } from "typescript";
-
-const ChakraBox = chakra(motion.div, {
-  /**
-   * Allow motion props and non-Chakra props to be forwarded.
-   */
-  shouldForwardProp: (prop) =>
-    isValidMotionProp(prop) || shouldForwardProp(prop),
-});
 
 const teamMembers = [
   {
@@ -48,43 +37,28 @@ const Team = () => {
   const [ref, setFocus] = useFocus();
 
   return (
-    <Flex w="100vw" h="100vh" overflow="hidden" pos="relative" id="equipo">
+    <div
+      className="flex w-screen h-screen overflow-hidden relative"
+      id="equipo"
+    >
       <AnimatePresence>
         {active === null && (
-          <ChakraBox
-            pos="absolute"
-            top={{ base: 20, xl: 24, "2xl": 32 }}
-            left={0}
-            right={0}
-            // MOTION:
+          <motion.div
+            className="absolute top-20 xl:top-24 2xl:top-32 left-0 right-0"
             initial={{ y: 50, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
-            // @ts-ignore no problem in operation, although type error appears.
             transition={{ duration: 1 }}
           >
-            <VStack spacing={0}>
-              <Text fontSize="xl" lineHeight="none">
-                Conoce nuestro
-              </Text>
-              <Text fontSize="6xl" lineHeight="none" fontWeight="bold">
-                EQUIPO
-              </Text>
-              <Text
-                as="span"
-                fontSize="xs"
-                display={{ base: "flex", xl: "none" }}
-                pt={4}
-                alignItems="center"
-                gap={8}
-                fontWeight="bold"
-                color="gray.300"
-              >
-                <ChevronRight transform="rotate(180deg)" />
+            <div className="flex flex-col items-center gap-0">
+              <span className="text-xl leading-none">Conoce nuestro</span>
+              <span className="text-6xl leading-none font-bold">EQUIPO</span>
+              <span className="flex xl:hidden pt-4 items-center gap-8 font-bold text-gray-300 text-xs">
+                <ChevronRight style={{ transform: "rotate(180deg)" }} />
                 Desliza
                 <ChevronRight />
-              </Text>
-            </VStack>
-          </ChakraBox>
+              </span>
+            </div>
+          </motion.div>
         )}
       </AnimatePresence>
 
@@ -95,30 +69,19 @@ const Team = () => {
             initial={{ x: 50, opacity: 0 }}
             whileInView={{ x: 0, opacity: 1 }}
             transition={{ duration: 1 }}
-            style={{
-              position: "absolute",
-              bottom: 0,
-              top: 0,
-              left: 0,
-              right: 0,
-            }}
+            className="absolute inset-0"
           >
-            <Text
-              fontWeight="extrabold"
-              fontSize={
-                active === 1
-                  ? `${160 / teamMembers[active].alt.length}vw`
-                  : `${140 / teamMembers[active].alt.length}vw`
-              }
-              lineHeight="none"
-              pos="absolute"
-              top={{ base: 16, md: 32 }}
-              right={-2}
-              color="gray.200"
-              textTransform="uppercase"
+            <span
+              className="font-extrabold leading-none absolute top-16 md:top-32 right-[-0.5rem] text-gray-200 uppercase"
+              style={{
+                fontSize:
+                  active === 1
+                    ? `${160 / teamMembers[active].alt.length}vw`
+                    : `${140 / teamMembers[active].alt.length}vw`,
+              }}
             >
               {teamMembers[active].alt}
-            </Text>
+            </span>
           </motion.div>
         )}
       </AnimatePresence>
@@ -130,127 +93,88 @@ const Team = () => {
             initial={{ x: 50, opacity: 0 }}
             whileInView={{ x: 0, opacity: 1 }}
             transition={{ duration: 1, delay: 0.25 }}
-            style={{
-              position: "absolute",
-              bottom: 0,
-              top: 0,
-              left: 0,
-              right: 0,
-              zIndex: 10,
-            }}
+            className="absolute inset-0 z-10"
           >
-            <VStack
+            <div
               ref={ref as LegacyRef<HTMLDivElement>}
-              alignItems={{
-                base: "center",
-                md: "flex-end",
-              }}
-              justifyContent={{
-                base: "space-between",
-                md: "center",
-                xl: "flex-end",
-              }}
-              w="100%"
-              h="100%"
-              p={{ base: 8, md: 16, xl: 32 }}
-              pt={{ base: 24, md: 16, xl: 32 }}
+              className="flex flex-col items-center md:items-end justify-between md:justify-center xl:justify-end w-full h-full p-8 md:p-16 xl:p-32 pt-24 md:pt-16 xl:pt-32"
             >
               <div>
-                <Text
-                  fontSize={{ base: "4xl", md: "6xl" }}
-                  lineHeight="none"
-                  fontWeight="bold"
-                  maxW={{ base: "40rem", md: "20rem", xl: "40rem" }}
-                  textAlign={{ base: "center", md: "right" }}
-                >
+                <p className="text-4xl md:text-6xl leading-none font-bold max-w-[40rem] md:max-w-80 xl:max-w-[40rem] text-center md:text-right">
                   {teamMembers[active].name}
-                </Text>
-                <Text
-                  lineHeight="none"
-                  pb={4}
-                  textAlign={{ base: "center", md: "right" }}
-                >
+                </p>
+                <p className="leading-none pb-4 text-center md:text-right">
                   {teamMembers[active].position}
-                </Text>
+                </p>
               </div>
 
-              <Button
-                variant="secondary"
-                fontSize="xs"
-                pos="relative"
-                py={2}
-                px={3}
-                lineHeight="none"
+              <button
+                className="btn-secondary text-xs relative py-2 px-3 leading-none flex items-center gap-2"
                 onClick={() => setActive(null)}
-                rightIcon={
-                  <ChevronRight fontSize="0.5rem" transform="rotate(90deg)" />
-                }
               >
                 Ver todo el equipo
-              </Button>
-            </VStack>
+                <ChevronRight
+                  style={{ fontSize: "0.5rem", transform: "rotate(90deg)" }}
+                />
+              </button>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
 
       {/* IMAGES */}
-      <Flex
-        height="100vh"
-        width="100vw"
-        max-width="100vw"
-        overflowY="hidden"
-        overflowX={active === null ? "auto" : "hidden"}
+      <div
+        className="flex h-screen w-screen max-w-[100vw] overflow-y-hidden"
+        style={{ overflowX: active === null ? "auto" : "hidden" }}
       >
-        <Flex
-          className={active === null ? styles.parent : ""}
-          w={{ base: "200vw", xl: "100%" }}
-          position="relative"
+        <div
+          className={`flex w-[200vw] xl:w-full relative ${
+            active === null ? styles.parent : ""
+          }`}
         >
           {teamMembers.map((member, i) => {
             return (
               <AnimatePresence key={i}>
                 {(active === null || active === i) && (
-                  <ChakraBox
-                    display="flex"
-                    position="absolute"
-                    h={active === i ? { base: "75vh", md: "100vh" } : "75vh"}
-                    ml={{ base: 0, md: -4 }}
-                    left={
-                      active === i
-                        ? { base: 0, md: 16, xl: 32 }
-                        : {
-                            base: `${50 * i - 20}%`,
-                            md: `${33 * i - 4}%`,
-                            xl: `${25 * i}%`,
-                          }
-                    }
-                    bottom={0}
-                    right={0}
-                    margin={active === null ? "" : "auto"}
+                  <motion.div
+                    className="flex absolute bottom-0"
                     style={{
+                      height:
+                        active === i
+                          ? "clamp(75vh, 75vh, 100vh)"
+                          : "75vh",
+                      marginLeft: active === i ? 0 : undefined,
+                      left:
+                        active === i
+                          ? "clamp(0px, 2rem, 2rem)"
+                          : `${50 * i - 20}%`,
+                      right: 0,
+                      margin: active === null ? "" : "auto",
                       aspectRatio: "2/3",
                       transition: "all 0.75s ease",
                     }}
                     onClick={() => {
                       setActive(i);
                     }}
-                    //MOTION:
                     initial={{ y: 50, opacity: 0 }}
                     whileInView={{ y: 0, opacity: 1 }}
-                    // @ts-ignore no problem in operation, although type error appears.
-                    transition={{ duration: 0.5, delay: i / 2, ease: "easeIn" }}
+                    transition={{
+                      duration: 0.5,
+                      delay: i / 2,
+                      ease: "easeIn",
+                    }}
                   >
-                    <Flex flexGrow={1} transition="0.5s" cursor="pointer">
+                    <div className="flex-grow transition-all duration-500 cursor-pointer relative">
                       <Image src={member.src} alt={member.alt} fill />
-                    </Flex>
-                  </ChakraBox>
+                    </div>
+                  </motion.div>
                 )}
               </AnimatePresence>
             );
           })}
-        </Flex>
-      </Flex>
-    </Flex>
+        </div>
+      </div>
+    </div>
   );
 };
 

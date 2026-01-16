@@ -1,11 +1,11 @@
-import { Icon, IconProps, ResponsiveValue } from "@chakra-ui/react";
+import { SVGProps } from "react";
 
 export interface SiimIsotipoProps {
-  width?: ResponsiveValue<string & {}> |  string  | number;
+  width?: string | number;
   circleColor?: string;
   crossColor?: string;
   iconsColor?: string;
-  siimIsotipoProps?: IconProps;
+  style?: React.CSSProperties;
 }
 
 export const SiimIsotipo = ({
@@ -13,14 +13,12 @@ export const SiimIsotipo = ({
   circleColor = "#c10e18",
   crossColor = "black",
   iconsColor = "white",
-  siimIsotipoProps,
+  style,
 }: SiimIsotipoProps) => {
   return (
-    <Icon
+    <svg
       viewBox="0 0 395.65 395.65"
-      width={width}
-      height="100%"
-      {...siimIsotipoProps}
+      style={{ width, height: "100%", ...style }}
     >
       <circle fill={circleColor} cx="197.8" cy="197.8" r="197.8" />
       <path
@@ -39,6 +37,6 @@ export const SiimIsotipo = ({
         fill={crossColor}
         d="M312 96 207 198l102 105a6 6 0 1 1-9 9L198 207 93 309a6 6 0 0 1-9 0c-3-3-3-7 0-9l105-102L87 93c-3-3-3-7 0-9 2-3 6-3 9 0l102 105L303 87c2-3 6-3 9 0 2 2 2 6 0 9Z"
       />
-    </Icon>
+    </svg>
   );
 };

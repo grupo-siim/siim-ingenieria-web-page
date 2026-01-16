@@ -1,6 +1,5 @@
 import SlideIn from "@/components/animations/SlideIn";
 import {
-  CloseCircleOutlined,
   FacebookOutlined,
   InstagramOutlined,
   LinkedinOutlined,
@@ -8,45 +7,33 @@ import {
   PhoneOutlined,
   PushpinOutlined,
 } from "@ant-design/icons";
-import {
-  Box,
-  Button,
-  Center,
-  Flex,
-  Heading,
-  HStack,
-  Stack,
-  Text,
-  Tooltip,
-  useMediaQuery,
-  VStack,
-} from "@chakra-ui/react";
-import { Offset } from "mapbox-gl";
 import Link from "next/link";
 import PinIcon from "public/icons/PinIcon";
-import { useState } from "react";
-import ReactMapGL, {
+import { useState, useEffect } from "react";
+import {
   Marker,
   Map,
   NavigationControl,
   Popup,
-  ScaleControl,
-  GeolocateControl,
 } from "react-map-gl";
 
 const Contacto = () => {
   const [showPopup, setShowPopup] = useState(false);
-  const [isMd] = useMediaQuery("(min-width: 48em)");
+  const [isMd, setIsMd] = useState(false);
   const LATITUDE = -33.44797;
   const LONGITUDE = -70.64559;
+
+  useEffect(() => {
+    const checkWidth = () => setIsMd(window.innerWidth >= 768);
+    checkWidth();
+    window.addEventListener("resize", checkWidth);
+    return () => window.removeEventListener("resize", checkWidth);
+  }, []);
+
   return (
-    <Center
-      flexDir={{ base: "column-reverse", md: "row" }}
-      w="100vw"
-      h="100vh"
-      overflow="hidden"
+    <div
+      className="flex flex-col-reverse md:flex-row w-screen h-screen overflow-hidden relative items-center justify-center"
       id="contacto"
-      pos="relative"
     >
       <SlideIn direction="toDown">
         <Map
@@ -73,8 +60,6 @@ const Contacto = () => {
             latitude={LATITUDE}
             anchor="top"
             onClick={(e) => {
-              // If we let the click event propagates to the map, it will immediately close the popup
-              // with `closeOnClick: true`
               e.originalEvent.stopPropagation();
               setShowPopup(true);
             }}
@@ -89,153 +74,112 @@ const Contacto = () => {
               anchor="top"
               closeButton={false}
               closeOnClick={false}
-              offset={[0, 24] as Offset}
+              offset={[0, 24] as [number, number]}
               onClose={() => setShowPopup(false)}
               style={{ minWidth: "350px" }}
             >
-              <HStack lineHeight="0.9rem" p={4}>
-                <VStack w="100%" spacing={1}>
-                  <Text fontWeight="bold" textAlign="left" w="100%">
+              <div className="flex flex-row leading-[0.9rem] p-4 gap-4">
+                <div className="flex flex-col w-full gap-1">
+                  <p className="font-bold text-left w-full">
                     Eleuterio Ramírez 731, Local A.
-                  </Text>
-                  <Text>8330253 Santiago, Región Metropolitana, Chile</Text>
-                </VStack>
+                  </p>
+                  <p>8330253 Santiago, Región Metropolitana, Chile</p>
+                </div>
                 <Link
                   href="https://www.google.com/maps/place/Eleuterio+Ram%C3%ADrez+731,+8330253+Santiago,+Regi%C3%B3n+Metropolitana,+Chile/@-33.448038,-70.646019,18z/data=!4m5!3m4!1s0x9662c50b2c987881:0x7bb9883a07ee293!8m2!3d-33.4480591!4d-70.645584?hl=en-US"
                   target="_blank"
                 >
-                  <VStack>
-                    <Text
-                      minW="max-content"
-                      lineHeight="none"
-                      textAlign="center"
-                    >
+                  <div className="flex flex-col">
+                    <p className="min-w-max leading-none text-center">
                       ¿Cómo llegar?
-                    </Text>
-                  </VStack>
+                    </p>
+                  </div>
                 </Link>
-              </HStack>
+              </div>
 
-              <Button
-                variant="secondary"
-                size="xs"
-                lineHeight="none"
-                pos="absolute"
-                top={2}
-                fontSize="0.5rem"
-                right={2}
+              <button
+                className="btn-secondary btn-xs leading-none absolute top-2 right-2 text-[0.5rem]"
                 onClick={() => setShowPopup(false)}
               >
                 X
-              </Button>
+              </button>
             </Popup>
           )}
         </Map>
       </SlideIn>
 
       <SlideIn direction="toUp" style={{ position: "relative", zIndex: 2 }}>
-        <VStack
-          bg="white"
-          w="100%"
-          h="100%"
-          justifyContent="space-between"
-          textAlign={{ base: "left", md: "right" }}
-          p={{ base: 8, md: 16, xl: 32 }}
-          pt={{ base: 24, md: 32 }}
-        >
-          <VStack
-            spacing={{ base: 6, md: 8 }}
-            alignItems={{ base: "flex-start", md: "flex-end" }}
-          >
-            <Heading fontSize={{ base: "4xl", xl: "6xl" }} fontWeight="bold">
-              ¡CONTÁCTANOS!
-            </Heading>
-            <Text fontSize={{ base: "md", md: "xl", xl: "2xl" }}>
+        <div className="flex flex-col bg-white w-full h-full justify-between text-left md:text-right p-8 md:p-16 xl:p-32 pt-24 md:pt-32 gap-6">
+          <div className="flex flex-col gap-6 md:gap-8 items-start md:items-end">
+            <h1 className="text-4xl xl:text-6xl font-bold">¡CONTÁCTANOS!</h1>
+            <p className="text-base md:text-xl xl:text-2xl">
               Conversar es la mejor manera de manifestar su necesidad y nosotros
               aportar la solución.
-            </Text>
+            </p>
 
             <Link
               href="https://web.whatsapp.com/send?phone=56983963903&text=Hola%2C%20me%20gustar%C3%ADa%20obtener%20mas%20informaci%C3%B3n%20sobre%20proyectos%20y%2Fo%20instalaciones."
               target="_blank"
             >
-              <Button
-                variant="primary"
-                size={{ base: "sm", md: "md", xl: "lg" }}
-              >
+              <button className="btn-primary btn-sm md:btn-md xl:btn-lg">
                 Contáctanos
-              </Button>
+              </button>
             </Link>
-          </VStack>
+          </div>
 
-          <Flex
-            flexDir={{ base: "column", xl: "row-reverse" }}
-            gap={8}
-            pt={6}
-            w="100%"
-            justifyContent="space-between"
-            alignItems={{ base: "flex-start", md: "flex-end" }}
-          >
-            <VStack alignItems={{ base: "flex-start", md: "flex-end" }}>
-              <Center gap={2}>
-                <PhoneOutlined width="24px" rev={undefined} />
-                <Text>+56 2 3301 0928</Text>
-              </Center>
-              <Center gap={2}>
-                <MailOutlined width="24px" rev={undefined} />
-                <Text>contacto@siim.cl</Text>
-              </Center>
-              <Center gap={2}>
-                <PushpinOutlined width="24px" rev={undefined} />
-                <Text>Eleuterio Ramírez 731, Local A, Santiago.</Text>
-              </Center>
-            </VStack>
+          <div className="flex flex-col xl:flex-row-reverse gap-8 pt-6 w-full justify-between items-start md:items-end">
+            <div className="flex flex-col items-start md:items-end gap-2">
+              <div className="flex items-center gap-2">
+                <PhoneOutlined style={{ width: "24px" }} />
+                <span>+56 2 3301 0928</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <MailOutlined style={{ width: "24px" }} />
+                <span>contacto@siim.cl</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <PushpinOutlined style={{ width: "24px" }} />
+                <span>Eleuterio Ramírez 731, Local A, Santiago.</span>
+              </div>
+            </div>
 
-            <VStack>
-              <Text fontWeight="bold"> Síguenos</Text>
-              <Stack
-                direction="row"
-                justifyContent="center"
-                alignItems="center"
-                color="gray.700"
-              >
+            <div className="flex flex-col items-center gap-2">
+              <span className="font-bold">Síguenos</span>
+              <div className="flex flex-row justify-center items-center text-gray-700 gap-4">
                 <Link
                   href="https://www.facebook.com/SIIMSPAgroup"
                   target="_blank"
                 >
-                  <FacebookOutlined width="24px" rev={undefined} />
+                  <FacebookOutlined style={{ fontSize: "24px" }} />
                 </Link>
                 <Link
                   href="https://www.instagram.com/siim_spa/"
                   target="_blank"
                 >
-                  <InstagramOutlined width="24px" rev={undefined} />
+                  <InstagramOutlined style={{ fontSize: "24px" }} />
                 </Link>
                 <Link
                   href="https://www.linkedin.com/in/siim-group-43b2bb1b9/"
                   target="_blank"
                 >
-                  <LinkedinOutlined width="24px" rev={undefined} />
+                  <LinkedinOutlined style={{ fontSize: "24px" }} />
                 </Link>
-              </Stack>
-            </VStack>
-          </Flex>
-        </VStack>
+              </div>
+            </div>
+          </div>
+        </div>
       </SlideIn>
 
-      <Box
-        pos="absolute"
-        w={{ base: "100%", md: "70%", xl: "80%" }}
-        h={{ base: "80%", md: "100%" }}
-        right={0}
-        top={0}
-        zIndex={1}
-        bg={{
-          base: "linear-gradient(0deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 30%, rgba(255,255,255,1) 100%);",
-          md: "linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 30%, rgba(255,255,255,1) 100%);",
+      <div
+        className="absolute w-full md:w-[70%] xl:w-[80%] h-[80%] md:h-full right-0 top-0 z-[1]"
+        style={{
+          background:
+            isMd
+              ? "linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 30%, rgba(255,255,255,1) 100%)"
+              : "linear-gradient(0deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 30%, rgba(255,255,255,1) 100%)",
         }}
       />
-    </Center>
+    </div>
   );
 };
 

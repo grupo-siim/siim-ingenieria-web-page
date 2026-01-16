@@ -1,19 +1,8 @@
-import { FireFilled } from "@ant-design/icons";
-import {
-  Box,
-  Divider,
-  Flex,
-  HStack,
-  StylesProvider,
-  Text,
-  useMediaQuery,
-  VStack,
-} from "@chakra-ui/react";
 import DesignIcon from "public/icons/DesignIcon";
 import ElectricIcon from "public/icons/ElectricIcon";
 import FireIcon from "public/icons/FireIcon";
 import WorldIcon from "public/icons/WorldIcon";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./serviceslist.module.css";
 
 const services = [
@@ -46,7 +35,14 @@ const services = [
 const ServicesList = () => {
   const [active, setActive] = useState(2);
   const [order, setOrder] = useState(["1", "2", "3", "4"]);
-  const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
+  const [isLargerThan768, setIsLargerThan768] = useState(false);
+
+  useEffect(() => {
+    const checkWidth = () => setIsLargerThan768(window.innerWidth >= 768);
+    checkWidth();
+    window.addEventListener("resize", checkWidth);
+    return () => window.removeEventListener("resize", checkWidth);
+  }, []);
 
   useEffect(() => {
     if (isLargerThan768) {
@@ -90,64 +86,45 @@ const ServicesList = () => {
 
   return (
     <>
-      <Flex className={styles["all-slides"]}>
+      <div className={styles["all-slides"]}>
         {services.map((service, i) => (
-          <VStack
+          <div
             key={service.key}
-            className={styles["single-slide"]}
+            className={`${styles["single-slide"]} flex flex-col bg-center bg-cover`}
             data-order={order[i]}
             onClick={() => setActive(service.key)}
-            bgPos="center"
-            bgSize="cover"
-            bgImg={service.bg}
+            style={{ backgroundImage: service.bg }}
           >
-            <VStack
-              alignItems="flex-start"
-              justifyContent="flex-end"
-              p={4}
-              w="100%"
-              height="100%"
-              color="white"
-              bg="linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #000000 100%)"
-            >
+            <div className="flex flex-col items-start justify-end p-4 w-full h-full text-white bg-gradient-to-t from-black to-transparent">
               {service.icon}
-              <Text
-                fontWeight="bold"
-                lineHeight={{ base: "1rem", md: 5 }}
-                fontSize={{ base: "sm", md: "md", xl: "xl" }}
-                textAlign="left"
-                maxW={60}
-              >
+              <p className="font-bold leading-4 md:leading-5 text-sm md:text-base xl:text-xl text-left max-w-60">
                 {service.label}
-              </Text>
-            </VStack>
-          </VStack>
+              </p>
+            </div>
+          </div>
         ))}
-      </Flex>
-      <Flex w="100%" gap={8} pr={{ base: 8, xl: 16 }} alignItems="center">
-        <Box height="3px" bg="gray.300" w="100%">
-          <Box w={`${active * 25}%`} h="100%" bg="red.600" transition="2s" />
-        </Box>
-        {/* <Divider height={"2px"} bg="gray.300" /> */}
+      </div>
+      <div className="flex w-full gap-8 pr-8 xl:pr-16 items-center">
+        <div className="h-[3px] bg-gray-300 w-full">
+          <div
+            className="h-full bg-red-600 transition-all duration-[2s]"
+            style={{ width: `${active * 25}%` }}
+          />
+        </div>
         {[1, 2, 3, 4].map((item) => (
-          <Text
+          <p
             key={item}
             onClick={() => setActive(item)}
-            cursor="pointer"
-            transition="2s"
-            fontWeight="bold"
-            lineHeight="none"
-            fontSize={
+            className={`cursor-pointer transition-all duration-[2s] font-bold leading-none ${
               active === item
-                ? { base: "4xl", xl: "6xl" }
-                : { base: "2xl", xl: "4xl" }
-            }
-            color={active === item ? "red.600" : "gray.300"}
+                ? "text-4xl xl:text-6xl text-red-600"
+                : "text-2xl xl:text-4xl text-gray-300"
+            }`}
           >
             {item}
-          </Text>
+          </p>
         ))}
-      </Flex>
+      </div>
     </>
   );
 };

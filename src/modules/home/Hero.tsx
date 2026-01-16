@@ -1,137 +1,65 @@
 import SlideIn from "@/components/animations/SlideIn";
-import {
-  Box,
-  Button,
-  Center,
-  Flex,
-  Heading,
-  Stack,
-  Text,
-} from "@chakra-ui/react";
 import Link from "next/link";
 import ChevronRight from "public/icons/ChevronRight";
-import React from "react";
 
 const Hero = () => {
   return (
-    <Center
-      w="100%"
-      flexGrow={1}
-      px={{ base: 0, md: 8, xl: 32 }}
-      alignItems="stretch"
-      transition="1s"
-    >
-      <Stack
-        flexGrow={1}
-        direction={{ base: "column", md: "row" }}
-        transition="1s"
-        spacing={0}
-      >
+    <div className="flex w-full flex-grow px-0 md:px-8 xl:px-32 items-stretch transition-all duration-1000">
+      <div className="flex flex-grow flex-col md:flex-row transition-all duration-1000">
         <SlideIn>
-          <Center
-            w="100%"
-            h="100%"
-            pos="relative"
-            bgImage="url(images/building.jpg)"
-            bgPosition="center"
-            bgSize="cover"
+          <div
+            className="flex w-full h-full relative items-center justify-center bg-cover bg-center"
+            style={{ backgroundImage: "url(images/building.jpg)" }}
           >
-            <Heading
-              pos="relative"
-              zIndex={1}
-              color="white"
-              fontSize="3xl"
-              lineHeight="initial"
-            >
+            <h2 className="relative z-10 text-white text-3xl leading-normal">
               Desarrollamos <br />
               <strong>soluciones</strong>
-            </Heading>
-            <Box
-              pos="absolute"
-              backgroundColor="rgba(0, 0, 0, 0.7)"
-              mixBlendMode="multiply"
-              inset="0 0 0 0"
-            />
-          </Center>
+            </h2>
+            <div className="absolute inset-0 bg-black/70 mix-blend-multiply" />
+          </div>
         </SlideIn>
 
-        <Stack w="100%" h="100%" spacing={0}>
+        <div className="flex flex-col w-full h-full">
           <SlideIn direction="toLeft" delay={0.5}>
-            <Flex
-              h="100%"
-              pos="relative"
-              p={6}
-              flexDir="column"
-              justifyContent="space-between"
-              bgImage="url(images/ingenieria.jpg)"
-              bgPosition="center"
-              bgSize="cover"
+            <div
+              className="flex h-full relative p-6 flex-col justify-between bg-cover bg-center"
+              style={{ backgroundImage: "url(images/ingenieria.jpg)" }}
             >
-              <Heading
-                pos="relative"
-                zIndex={1}
-                color="white"
-                fontSize="xl"
-                lineHeight="initial"
-                maxW={60}
-              >
+              <h3 className="relative z-10 text-white text-xl leading-normal max-w-60">
                 Servicios integrales de ingeniería y montajes
-              </Heading>
-              <Link href="/#servicios" style={{ alignSelf: "flex-end" }}>
-                <Button pos="relative" zIndex={1} variant="home" size="lg">
+              </h3>
+              <Link href="/#servicios" className="self-end">
+                <button className="btn-home btn-lg relative z-10">
                   <ChevronRight />
-                </Button>
+                </button>
               </Link>
-              <Box
-                pos="absolute"
-                bg="red.800"
-                mixBlendMode="multiply"
-                inset="0 0 0 0"
-              />
-            </Flex>
+              <div className="absolute inset-0 bg-red-800 mix-blend-multiply" />
+            </div>
           </SlideIn>
 
           <SlideIn direction="toLeft" delay={0.75}>
-            <Flex
-              h="100%"
-              pos="relative"
-              p={6}
-              flexDir="column"
-              justifyContent="space-between"
-              bgImage="url(images/distribuidora.jpg)"
-              bgPosition="center"
-              bgSize="cover"
+            <div
+              className="flex h-full relative p-6 flex-col justify-between bg-cover bg-center"
+              style={{ backgroundImage: "url(images/distribuidora.jpg)" }}
             >
-              <Heading
-                pos="relative"
-                zIndex={1}
-                color="white"
-                fontSize="xl"
-                lineHeight="initial"
-                maxW={60}
-              >
+              <h3 className="relative z-10 text-white text-xl leading-normal max-w-60">
                 Distribuidora de materiales y equipos
-              </Heading>
+              </h3>
               <Link
                 href="https://distribuidora.siim.cl/"
                 target="_blank"
-                style={{ alignSelf: "flex-end" }}
+                className="self-end"
               >
-                <Button pos="relative" zIndex={1} variant="home" size="lg">
+                <button className="btn-home btn-lg relative z-10">
                   <ChevronRight />
-                </Button>
+                </button>
               </Link>
-              <Box
-                pos="absolute"
-                bg="blue.800"
-                mixBlendMode="multiply"
-                inset="0 0 0 0"
-              />
-            </Flex>
+              <div className="absolute inset-0 bg-blue-800 mix-blend-multiply" />
+            </div>
           </SlideIn>
-        </Stack>
-      </Stack>
-    </Center>
+        </div>
+      </div>
+    </div>
   );
 };
 

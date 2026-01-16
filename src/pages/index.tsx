@@ -7,12 +7,13 @@ import SomosParte from "@/modules/home/SomosParte";
 import DynamicNavbar from "@/components/navbar/DynamicNavbar";
 import Servicios from "@/modules/home/servicios/Servicios";
 import Team from "@/modules/home/team/Team";
-import { Flex, useDisclosure } from "@chakra-ui/react";
 import Head from "next/head";
 import Footer from "@/components/footer/Footer";
+import { useState } from "react";
 
 export default function Home() {
-  const { isOpen, onToggle } = useDisclosure();
+  const [isOpen, setIsOpen] = useState(false);
+  const onToggle = () => setIsOpen((prev) => !prev);
 
   return (
     <>
@@ -27,7 +28,7 @@ export default function Home() {
       </Head>
       <DynamicNavbar toggleMenuMobile={onToggle} />
       <MobileMenu isOpen={isOpen} toggleMenu={onToggle} />
-      <Flex pos="relative" overflow="hidden" flexDir="column">
+      <div className="relative overflow-hidden flex flex-col">
         <HomeComponent toggleMenuMobile={onToggle} />
         <Empresa />
         <SomosParte />
@@ -36,7 +37,7 @@ export default function Home() {
         <Team />
         <Contacto />
         <Footer />
-      </Flex>
+      </div>
     </>
   );
 }

@@ -1,4 +1,3 @@
-import { Center, HStack } from "@chakra-ui/react";
 import styles from "./carousel.module.css";
 import Image from "next/image";
 
@@ -13,44 +12,14 @@ const imagesArray = [
 
 const Carousel = () => {
   return (
-    <HStack
-      className="slider"
-      h={{ base: 52, md: 64 }}
-      w="100%"
-      spacing={0}
-      overflow="hidden"
-      pos="relative"
-      _before={{
-        bg: "linear-gradient(to left, #FFFFFF00, #FFFFFFFF)",
-        content: '""',
-        h: "100%",
-        pos: "absolute",
-        w: "15%",
-        zIndex: "2",
-        left: 0,
-        top: 0,
-      }}
-      _after={{
-        bg: "linear-gradient(to right, #FFFFFF00, #FFFFFFFF)",
-        content: '""',
-        h: "100%",
-        pos: "absolute",
-        w: "15%",
-        zIndex: "2",
-        right: 0,
-        top: 0,
-      }}
+    <div
+      className="slider flex flex-row h-52 md:h-64 w-full overflow-hidden relative before:bg-gradient-to-l before:from-transparent before:to-white before:content-[''] before:h-full before:absolute before:w-[15%] before:z-[2] before:left-0 before:top-0 after:bg-gradient-to-r after:from-transparent after:to-white after:content-[''] after:h-full after:absolute after:w-[15%] after:z-[2] after:right-0 after:top-0"
     >
-      <HStack className={styles.sliderTrack} h="100%" w="200%" spacing={0}>
+      <div className={`${styles.sliderTrack} flex flex-row h-full w-[200%]`}>
         {imagesArray.map((item, i) => (
-          <Center
+          <div
             key={i}
-            className={styles.slide}
-            pos="relative"
-            minW={{ base: "100%", md: "50%", xl: "33.33%" }}
-            h="100%"
-            transition="0.5s"
-            _hover={{ transform: "scale(1.1)" }}
+            className={`${styles.slide} relative min-w-full md:min-w-[50%] xl:min-w-[33.33%] h-full transition-transform duration-500 hover:scale-110`}
           >
             <Image
               key={i}
@@ -59,10 +28,10 @@ const Carousel = () => {
               style={{ objectFit: "cover" }}
               fill
             />
-          </Center>
+          </div>
         ))}
-      </HStack>
-    </HStack>
+      </div>
+    </div>
   );
 };
 

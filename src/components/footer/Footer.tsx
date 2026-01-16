@@ -1,30 +1,15 @@
-import { Flex, Text } from "@chakra-ui/react";
 import Link from "next/link";
 
 const Footer = () => {
   return (
-    <Flex
-      flexDir={{ base: "column", md: "row" }}
-      fontSize="sm"
-      p={8}
-      lineHeight="none"
-      bg="gray.200"
-      justifyContent="space-between"
-      alignItems="center"
-      gap={2}
-    >
-      <Text>Copyright © 2023 SIIM - Ingeniería</Text>
+    <div className="flex flex-col md:flex-row text-sm p-8 leading-none bg-gray-200 justify-between items-center gap-2">
+      <p>Copyright © 2023 SIIM - Ingeniería</p>
       <Link href="https://roque-site.vercel.app/" target="_blank">
-        <Text
-          fontSize="xs"
-          as="span"
-          transition="0.5s"
-          _hover={{ color: "blue.600" }}
-        >
+        <span className="text-xs transition-all duration-500 hover:text-blue-600">
           Made with 🖤 by <strong>ROQUE.DEV</strong>
-        </Text>
+        </span>
       </Link>
-    </Flex>
+    </div>
   );
 };
 

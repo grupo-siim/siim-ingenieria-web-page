@@ -1,5 +1,4 @@
 import { menuArray } from "@/components/navbar/menuArray";
-import { Button, Text, VStack } from "@chakra-ui/react";
 import { AnimatePresence } from "framer-motion";
 import { useRouter } from "next/router";
 import SlideIn from "../animations/SlideIn";
@@ -30,30 +29,15 @@ const MobileMenu = ({
           }}
           duration={0.5}
         >
-          <VStack
-            w="100%"
-            h="100%"
-            display={{ base: "flex", md: "none" }}
-            spacing={0}
-          >
+          <div className="flex flex-col w-full h-full md:hidden">
             {menuArray.map((item, i) => (
-              <VStack
+              <div
                 key={i}
-                spacing={0}
-                flexGrow={1}
-                w="100%"
-                borderBottom="1px"
-                borderColor="white"
-                justifyContent="center"
-                bg={i === menuArray.length - 1 ? "gray.700" : ""}
-                color={i === menuArray.length - 1 ? "white" : ""}
-                fontSize="1.5rem"
-                transition="0.5s"
-                _active={
+                className={`flex flex-grow items-center justify-center w-full border-b border-white text-2xl transition-all duration-500 cursor-pointer ${
                   i === menuArray.length - 1
-                    ? { bg: "gray.900" }
-                    : { bg: "gray.300" }
-                }
+                    ? "bg-gray-700 text-white active:bg-gray-900"
+                    : "active:bg-gray-300"
+                }`}
                 onClick={(e) => {
                   e.stopPropagation();
                   e.preventDefault();
@@ -61,19 +45,16 @@ const MobileMenu = ({
                   toggleMenu();
                 }}
               >
-                <Text>{item.label}</Text>
-              </VStack>
+                <span>{item.label}</span>
+              </div>
             ))}
-            <Button
+            <button
               onClick={toggleMenu}
-              variant="secondary"
-              pos="absolute"
-              top={2}
-              right={2}
+              className="btn-secondary absolute top-2 right-2 px-3 py-1"
             >
               X
-            </Button>
-          </VStack>
+            </button>
+          </div>
         </SlideIn>
       )}
     </AnimatePresence>
