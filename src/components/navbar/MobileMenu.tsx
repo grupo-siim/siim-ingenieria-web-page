@@ -1,6 +1,8 @@
+"use client";
+
 import { menuArray } from "@/components/navbar/menuArray";
 import { AnimatePresence } from "framer-motion";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import SlideIn from "../animations/SlideIn";
 
 const MobileMenu = ({

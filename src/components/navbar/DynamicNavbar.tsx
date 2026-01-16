@@ -1,3 +1,5 @@
+"use client";
+
 import styles from "./dynamicNavbar.module.css";
 import { useState, useEffect } from "react";
 import { AnimatePresence } from "framer-motion";

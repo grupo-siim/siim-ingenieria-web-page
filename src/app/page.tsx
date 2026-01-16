@@ -1,3 +1,5 @@
+"use client";
+
 import MobileMenu from "@/components/navbar/MobileMenu";
 import Certificates from "@/modules/home/certificates/Certificates";
 import Contacto from "@/modules/home/contacto/Contacto";
@@ -7,7 +9,6 @@ import SomosParte from "@/modules/home/SomosParte";
 import DynamicNavbar from "@/components/navbar/DynamicNavbar";
 import Servicios from "@/modules/home/servicios/Servicios";
 import Team from "@/modules/home/team/Team";
-import Head from "next/head";
 import Footer from "@/components/footer/Footer";
 import { useState } from "react";
 
@@ -17,15 +18,6 @@ export default function Home() {
 
   return (
     <>
-      <Head>
-        <title>SIIM Ingeniería</title>
-        <meta
-          name="description"
-          content="Servicios integrales de ingeniería y montajes"
-        />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.svg" />
-      </Head>
       <DynamicNavbar toggleMenuMobile={onToggle} />
       <MobileMenu isOpen={isOpen} toggleMenu={onToggle} />
       <div className="relative overflow-hidden flex flex-col">

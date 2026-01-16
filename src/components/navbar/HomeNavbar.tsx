@@ -1,3 +1,5 @@
+"use client";
+
 import SlideIn from "@/components/animations/SlideIn";
 import Link from "next/link";
 import MenuIcon from "public/icons/MenuIcon";

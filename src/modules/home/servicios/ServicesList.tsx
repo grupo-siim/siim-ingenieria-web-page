@@ -1,3 +1,5 @@
+"use client";
+
 import DesignIcon from "public/icons/DesignIcon";
 import ElectricIcon from "public/icons/ElectricIcon";
 import FireIcon from "public/icons/FireIcon";

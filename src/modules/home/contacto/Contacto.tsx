@@ -1,3 +1,5 @@
+"use client";
+
 import SlideIn from "@/components/animations/SlideIn";
 import {
   FacebookOutlined,
