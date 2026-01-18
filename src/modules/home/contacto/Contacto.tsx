@@ -1,6 +1,6 @@
 "use client";
 
-import SlideIn from "@/components/animations/SlideIn";
+import { SlideIn } from "@/components/common";
 import {
   FacebookOutlined,
   InstagramOutlined,
