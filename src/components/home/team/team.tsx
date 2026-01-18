@@ -3,7 +3,22 @@
 import { useFocus } from "@/shared/hooks";
 import { ChevronRight } from "lucide-react";
 import Image from "next/image";
-import { LegacyRef, useEffect, useRef, useState } from "react";
+import { LegacyRef, useCallback, useEffect, useRef, useState } from "react";
+
+const useMediaQuery = (query: string): boolean => {
+  const [matches, setMatches] = useState(false);
+
+  useEffect(() => {
+    const media = window.matchMedia(query);
+    setMatches(media.matches);
+
+    const listener = (e: MediaQueryListEvent) => setMatches(e.matches);
+    media.addEventListener("change", listener);
+    return () => media.removeEventListener("change", listener);
+  }, [query]);
+
+  return matches;
+};
 
 const teamMembers = [
   {
@@ -37,6 +52,25 @@ const Team = () => {
   const [ref, setFocus] = useFocus();
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
+
+  const isXl = useMediaQuery("(min-width: 1280px)");
+  const isMd = useMediaQuery("(min-width: 768px)");
+
+  const getLeftPosition = useCallback(
+    (i: number) => {
+      if (isXl) {
+        // Desktop: distribute evenly across 100vw
+        return `${25 * i}%`;
+      } else if (isMd) {
+        // Tablet: more spacing
+        return `calc(${i * 55}vw + 10vw)`;
+      } else {
+        // Mobile: wider spacing for better swipe
+        return `calc(${i * 75}vw + 12.5vw)`;
+      }
+    },
+    [isXl, isMd],
+  );
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -141,11 +175,11 @@ const Team = () => {
 
       {/* IMAGES */}
       <div
-        className="flex h-screen w-screen max-w-[100vw] overflow-y-hidden"
+        className="flex h-screen w-screen max-w-[100vw] overflow-y-hidden scroll-smooth snap-x snap-mandatory xl:snap-none"
         style={{ overflowX: active === null ? "auto" : "hidden" }}
       >
         <div
-          className={`flex w-[200vw] xl:w-[100vw] relative ${
+          className={`flex w-[300vw] md:w-[250vw] xl:w-[100vw] relative ${
             active === null ? "team-parent" : ""
           }`}
         >
@@ -154,15 +188,23 @@ const Team = () => {
             return (
               <div
                 key={i}
-                className={`flex absolute bottom-0 transition-all duration-700 ${
+                className={`flex absolute bottom-0 transition-all duration-700 snap-center ${
                   isVisible && shouldShow
                     ? "opacity-100 translate-y-0"
                     : "opacity-0 translate-y-12 pointer-events-none"
                 }`}
                 style={{
-                  height: active === i ? "clamp(75vh, 75vh, 100vh)" : "75vh",
+                  height:
+                    active === i
+                      ? "clamp(60vh, 65vh, 100vh)"
+                      : isXl
+                        ? "75vh"
+                        : "60vh",
                   marginLeft: active === i ? 0 : undefined,
-                  left: active === i ? "clamp(0px, 2rem, 2rem)" : `${25 * i}%`,
+                  left:
+                    active === i
+                      ? "clamp(0px, 2rem, 2rem)"
+                      : getLeftPosition(i),
                   right: 0,
                   margin: active === null ? "" : "auto",
                   aspectRatio: "2/3",
@@ -171,7 +213,12 @@ const Team = () => {
                 onClick={() => setActive(i)}
               >
                 <div className="flex-grow transition-all duration-500 cursor-pointer relative">
-                  <Image src={member.src} alt={member.alt} fill />
+                  <Image
+                    src={member.src}
+                    alt={member.alt}
+                    fill
+                    className="object-contain"
+                  />
                 </div>
               </div>
             );
