@@ -2,14 +2,14 @@
 
 import { SlideIn } from "@/components/common";
 import {
-  FacebookOutlined,
-  InstagramOutlined,
-  LinkedinOutlined,
-  MailOutlined,
-  PhoneOutlined,
-  PushpinOutlined,
-} from "@ant-design/icons";
-import { MapPin } from "lucide-react";
+  Facebook,
+  Instagram,
+  Linkedin,
+  Mail,
+  MapPin,
+  Phone,
+  Pin,
+} from "lucide-react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -147,15 +147,15 @@ const Contacto = () => {
           <div className="flex flex-col xl:flex-row-reverse gap-8 pt-6 w-full justify-between items-start md:items-end">
             <div className="flex flex-col items-start md:items-end gap-2">
               <div className="flex items-center gap-2">
-                <PhoneOutlined style={{ width: "24px" }} />
+                <Phone size={24} />
                 <span>+56 2 3301 0928</span>
               </div>
               <div className="flex items-center gap-2">
-                <MailOutlined style={{ width: "24px" }} />
+                <Mail size={24} />
                 <span>contacto@siim.cl</span>
               </div>
               <div className="flex items-center gap-2">
-                <PushpinOutlined style={{ width: "24px" }} />
+                <Pin size={24} />
                 <span>Eleuterio Ramírez 731, Local A, Santiago.</span>
               </div>
             </div>
@@ -167,19 +167,19 @@ const Contacto = () => {
                   href="https://www.facebook.com/SIIMSPAgroup"
                   target="_blank"
                 >
-                  <FacebookOutlined style={{ fontSize: "24px" }} />
+                  <Facebook size={24} />
                 </Link>
                 <Link
                   href="https://www.instagram.com/siim_spa/"
                   target="_blank"
                 >
-                  <InstagramOutlined style={{ fontSize: "24px" }} />
+                  <Instagram size={24} />
                 </Link>
                 <Link
                   href="https://www.linkedin.com/in/siim-group-43b2bb1b9/"
                   target="_blank"
                 >
-                  <LinkedinOutlined style={{ fontSize: "24px" }} />
+                  <Linkedin size={24} />
                 </Link>
               </div>
             </div>

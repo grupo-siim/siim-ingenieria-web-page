@@ -31,9 +31,7 @@
 
 ### Dependencias Principales
 
-- **@ant-design/icons** - Iconos de Ant Design
-- **lucide-react** - Iconos modernos
-- **react-icons** - Colección de iconos populares
+- **lucide-react** - Librería de iconos
 - **swiper** - Carrusel/slider moderno
 - **mapbox-gl / react-map-gl** - Mapas interactivos
 
