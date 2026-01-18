@@ -2,27 +2,36 @@
 
 import { SlideIn } from "@/components/common";
 import {
+  Empresa,
+  Hero,
+  Servicios,
+  SocialMedia,
+  SomosParte,
+} from "@/components/home";
+import {
   DynamicNavbar,
   Footer,
   HomeNavbar,
   MobileMenu,
 } from "@/components/layout";
-import { Empresa, Hero, Servicios, SocialMedia, SomosParte } from "@/features";
 import dynamic from "next/dynamic";
 import { useState } from "react";
 
 // Lazy load heavy components to improve initial page load
 const Certificates = dynamic(
   () =>
-    import("@/features/certificates/certificates").then((mod) => mod.default),
+    import("@/components/home/certificates/certificates").then(
+      (mod) => mod.default,
+    ),
   { ssr: false },
 );
 const Team = dynamic(
-  () => import("@/features/team/team").then((mod) => mod.default),
+  () => import("@/components/home/team/team").then((mod) => mod.default),
   { ssr: false },
 );
 const Contacto = dynamic(
-  () => import("@/features/contacto/contacto").then((mod) => mod.default),
+  () =>
+    import("@/components/home/contacto/contacto").then((mod) => mod.default),
   { ssr: false },
 );
 
