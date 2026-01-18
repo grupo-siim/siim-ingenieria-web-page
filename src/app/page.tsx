@@ -1,16 +1,30 @@
 "use client";
 
-import MobileMenu from "@/components/navbar/MobileMenu";
-import Certificates from "@/modules/home/certificates/Certificates";
-import Contacto from "@/modules/home/contacto/Contacto";
-import Empresa from "@/modules/home/empresa/Empresa";
-import HomeComponent from "@/modules/home/HomeComponent";
-import SomosParte from "@/modules/home/SomosParte";
-import DynamicNavbar from "@/components/navbar/DynamicNavbar";
-import Servicios from "@/modules/home/servicios/Servicios";
-import Team from "@/modules/home/team/Team";
-import Footer from "@/components/footer/Footer";
+import { SlideIn } from "@/components/common";
+import {
+  DynamicNavbar,
+  Footer,
+  HomeNavbar,
+  MobileMenu,
+} from "@/components/layout";
+import { Empresa, Hero, Servicios, SocialMedia, SomosParte } from "@/features";
+import dynamic from "next/dynamic";
 import { useState } from "react";
+
+// Lazy load heavy components to improve initial page load
+const Certificates = dynamic(
+  () =>
+    import("@/features/certificates/certificates").then((mod) => mod.default),
+  { ssr: false },
+);
+const Team = dynamic(
+  () => import("@/features/team/team").then((mod) => mod.default),
+  { ssr: false },
+);
+const Contacto = dynamic(
+  () => import("@/features/contacto/contacto").then((mod) => mod.default),
+  { ssr: false },
+);
 
 export default function Home() {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,7 +35,15 @@ export default function Home() {
       <DynamicNavbar toggleMenuMobile={onToggle} />
       <MobileMenu isOpen={isOpen} toggleMenu={onToggle} />
       <div className="relative overflow-hidden flex flex-col">
-        <HomeComponent toggleMenuMobile={onToggle} />
+        {/* Home Section */}
+        <div className="flex flex-col min-h-screen" id="home">
+          <HomeNavbar toggleMenuMobile={onToggle} />
+          <Hero />
+          <SlideIn direction="toDown" style={{ width: "auto", height: "auto" }}>
+            <SocialMedia />
+          </SlideIn>
+        </div>
+
         <Empresa />
         <SomosParte />
         <Servicios />

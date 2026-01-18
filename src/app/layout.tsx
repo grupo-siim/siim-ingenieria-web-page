@@ -1,9 +1,9 @@
 import type { Metadata, Viewport } from "next";
-import "@/styles/globals.css";
+import "./globals.css";
 import "mapbox-gl/dist/mapbox-gl.css";
 
 export const metadata: Metadata = {
-  title: "SIIM Ingeniería",
+  title: "SIIM Fire & Electrical Systems",
   description: "Servicios integrales de ingeniería y montajes",
   icons: {
     icon: "/favicon.svg",
